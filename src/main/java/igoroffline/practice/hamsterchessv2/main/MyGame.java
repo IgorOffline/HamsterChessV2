@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
+import igoroffline.practice.hamsterchessv2.main.board.Piece;
+import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
@@ -28,7 +31,7 @@ public class MyGame extends ApplicationAdapter {
 
     private GameMaster gameMaster;
     private final int boardSize = 8;
-    private final int squareSize = 50;
+    private final int squareSize = 80;
     private final int windowHeight = 720;
 
     private Camera cam;
@@ -36,6 +39,10 @@ public class MyGame extends ApplicationAdapter {
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
+    private Texture textureKingWhite;
+    private Texture textureKingBlack;
+    private Texture textureRookWhite;
+    private Texture textureRookBlack;
 
     private MyImgui myImgui;
 
@@ -52,6 +59,10 @@ public class MyGame extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
+        textureKingWhite = new Texture("assets/Chess_klt45_p.png");
+        textureKingBlack = new Texture("assets/Chess_kdt45_p.png");
+        textureRookWhite = new Texture("assets/Chess_rlt45_p.png");
+        textureRookBlack = new Texture("assets/Chess_rdt45_p.png");
 
         myImgui = new MyImgui();
     }
@@ -81,7 +92,7 @@ public class MyGame extends ApplicationAdapter {
                     shapeRenderer.setColor(Color.valueOf("FFB58863"));
                 }
                 final var rectX = 25F + i * squareSize;
-                final var rectY = windowHeight - 75F - j * squareSize;
+                final var rectY = windowHeight - 105F - j * squareSize;
                 shapeRenderer.rect(rectX, rectY, squareSize, squareSize);
                 colorSwitch = !colorSwitch;
             }
@@ -94,9 +105,35 @@ public class MyGame extends ApplicationAdapter {
                 final var drawIndex = j * 8 + i;
                 final var square = gameMaster.getBoard().getBoard().get(drawIndex);
                 final var rectX = 25F + i * squareSize;
-                final var rectY = windowHeight - 75F - j * squareSize;
+                final var rectY = windowHeight - 105F - j * squareSize;
                 final var letterNumber = square.getLetter().name() + LetterNumber.getNumber(square.getNumber().index);
                 font.draw(spriteBatch, letterNumber, rectX, rectY + 12F);
+            }
+        }
+        spriteBatch.end();
+        spriteBatch.begin();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                final var drawIndex = j * 8 + i;
+                final var square = gameMaster.getBoard().getBoard().get(drawIndex);
+                final var xOffset = 8F;
+                final var rectX = 25F + i * squareSize + xOffset;
+                final var yOffset = 10F;
+                final var rectY = windowHeight - 105F - j * squareSize + yOffset;
+                final var rectSize = 60F;
+                Texture textureRender = null;
+                if (square.getPiece() == Piece.KING && square.getPieceColor() == PieceColor.WHITE) {
+                    textureRender = textureKingWhite;
+                } else if (square.getPiece() == Piece.KING && square.getPieceColor() == PieceColor.BLACK) {
+                    textureRender = textureKingBlack;
+                } else if (square.getPiece() == Piece.ROOK && square.getPieceColor() == PieceColor.WHITE) {
+                    textureRender = textureRookWhite;
+                } else if (square.getPiece() == Piece.ROOK && square.getPieceColor() == PieceColor.BLACK) {
+                    textureRender = textureRookBlack;
+                }
+                if (textureRender != null) {
+                    spriteBatch.draw(textureRender, rectX, rectY, rectSize, rectSize);
+                }
             }
         }
         spriteBatch.end();
@@ -110,6 +147,14 @@ public class MyGame extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+        shapeRenderer.dispose();
+        spriteBatch.dispose();
+        font.dispose();
+        textureKingWhite.dispose();
+        textureKingBlack.dispose();
+        textureRookWhite.dispose();
+        textureRookBlack.dispose();
+
         myImgui.dispose();
     }
 

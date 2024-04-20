@@ -28,32 +28,32 @@ public class Board {
 
     private void createBoard() {
 
-//        final var filledSquares = List.of(
-//                new Square(Letter.C, Number2.N6, Piece.KING, PieceColor.BLACK),
-//                new Square(Letter.C, Number2.N4, Piece.ROOK, PieceColor.BLACK),
-//                new Square(Letter.E, Number2.N6, Piece.BISHOP, PieceColor.BLACK),
-//                new Square(Letter.B, Number2.N6, Piece.KNIGHT, PieceColor.BLACK),
-//                new Square(Letter.A, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.E, Number2.N3, Piece.KING, PieceColor.WHITE),
-//                new Square(Letter.D, Number2.N2, Piece.ROOK, PieceColor.WHITE),
-//                new Square(Letter.G, Number2.N4, Piece.BISHOP, PieceColor.WHITE),
-//                new Square(Letter.F, Number2.N2, Piece.KNIGHT, PieceColor.WHITE),
-//                new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
-
         final var filledSquares = List.of(
                 new Square(Letter.C, Number2.N6, Piece.KING, PieceColor.BLACK),
+                new Square(Letter.C, Number2.N4, Piece.ROOK, PieceColor.BLACK),
+                new Square(Letter.E, Number2.N6, Piece.BISHOP, PieceColor.BLACK),
+                new Square(Letter.B, Number2.N6, Piece.KNIGHT, PieceColor.BLACK),
                 new Square(Letter.A, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-                new Square(Letter.G, Number2.N5, Piece.PAWN, PieceColor.BLACK),
-                new Square(Letter.G, Number2.N6, Piece.PAWN, PieceColor.BLACK),
-                new Square(Letter.H, Number2.N6, Piece.PAWN, PieceColor.BLACK),
-
-                new Square(Letter.F, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-                new Square(Letter.G, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-                new Square(Letter.H, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-
                 new Square(Letter.E, Number2.N3, Piece.KING, PieceColor.WHITE),
-                new Square(Letter.H, Number2.N4, Piece.PAWN, PieceColor.WHITE),
+                new Square(Letter.D, Number2.N2, Piece.ROOK, PieceColor.WHITE),
+                new Square(Letter.G, Number2.N4, Piece.BISHOP, PieceColor.WHITE),
+                new Square(Letter.F, Number2.N2, Piece.KNIGHT, PieceColor.WHITE),
                 new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
+
+//        final var filledSquares = List.of(
+//                new Square(Letter.C, Number2.N6, Piece.KING, PieceColor.BLACK),
+//                new Square(Letter.A, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+//                new Square(Letter.G, Number2.N5, Piece.PAWN, PieceColor.BLACK),
+//                new Square(Letter.G, Number2.N6, Piece.PAWN, PieceColor.BLACK),
+//                new Square(Letter.H, Number2.N6, Piece.PAWN, PieceColor.BLACK),
+//
+//                new Square(Letter.F, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+//                new Square(Letter.G, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+//                new Square(Letter.H, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+//
+//                new Square(Letter.E, Number2.N3, Piece.KING, PieceColor.WHITE),
+//                new Square(Letter.H, Number2.N4, Piece.PAWN, PieceColor.WHITE),
+//                new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
 
         for (int j = 0; j < 8; j++) {
             for (int i = 0; i < 8; i++) {
