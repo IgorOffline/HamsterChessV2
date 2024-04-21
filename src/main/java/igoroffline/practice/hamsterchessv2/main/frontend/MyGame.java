@@ -16,9 +16,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
-import igoroffline.practice.hamsterchessv2.main.board.Piece;
-import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
-import igoroffline.practice.hamsterchessv2.main.board.Square;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
@@ -28,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
+import java.util.Arrays;
+
 @Slf4j
 public class MyGame extends ApplicationAdapter {
 
@@ -35,6 +34,9 @@ public class MyGame extends ApplicationAdapter {
     private final int boardSize = 8;
     private final int squareSize = 80;
     private final int windowHeight = 720;
+    private int selectedSquareIndex = 0;
+    // temp hack
+    private final int[] moveRightIllegal = new int[boardSize];
 
     private Camera cam;
     private Viewport viewport;
@@ -53,6 +55,10 @@ public class MyGame extends ApplicationAdapter {
     public void create() {
         gameMaster = new GameMaster();
 
+        for (int i = 0; i < moveRightIllegal.length; i++) {
+            moveRightIllegal[i] = i * boardSize + boardSize - 1;
+        }
+
         cam = new OrthographicCamera(1280, windowHeight);
         viewport = new FitViewport(1280, windowHeight, cam);
         shapeRenderer = new ShapeRenderer();
@@ -65,6 +71,19 @@ public class MyGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.J) && selectedSquareIndex < boardSize * boardSize - boardSize) {
+            selectedSquareIndex += boardSize;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.K) && selectedSquareIndex >= boardSize) {
+            selectedSquareIndex -= boardSize;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H) && selectedSquareIndex % boardSize != 0) {
+            selectedSquareIndex--;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L) && (Arrays.binarySearch(moveRightIllegal, selectedSquareIndex) < 0)) {
+            selectedSquareIndex++;
+        }
 
         if (!ImGui.isAnyItemActive()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -124,6 +143,22 @@ public class MyGame extends ApplicationAdapter {
             }
         }
         spriteBatch.end();
+        spriteBatch.begin();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                final var drawIndex = j * 8 + i;
+                final var square = gameMaster.getBoard().getBoard().get(drawIndex);
+                final var xOffset = -10F;
+                final var rectX = 25F + i * squareSize + xOffset;
+                final var yOffset = 15F;
+                final var rectY = windowHeight - 105F - j * squareSize + yOffset;
+                final var rectSize = 40F;
+                if (selectedSquareIndex == drawIndex) {
+                    spriteBatch.draw(textures.getTextureSelectedSquarePointer(), rectX, rectY, rectSize, rectSize);
+                }
+            }
+        }
+        spriteBatch.end();
         myImgui.render();
     }
 
@@ -178,6 +213,7 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("Press W, observe the counters");
             ImGui.text("counter1: " + counter1);
             ImGui.text("counter2: " + counter2);
+            ImGui.text("selectedSquareIndex: " + selectedSquareIndex);
             // ---
 
             ImGui.render();
