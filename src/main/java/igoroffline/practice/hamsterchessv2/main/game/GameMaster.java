@@ -53,11 +53,19 @@ public class GameMaster {
         this.legalMoves = legalMoves;
     }
 
-    public void moveAndCalculate() {
+    public void moveAndCalculate(int fromIndex, int toIndex) {
+        setFromSquare(getBoard().getBoard().stream().filter(
+                sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE).findFirst());
+        setToSquare(getBoard().getBoard().stream().filter(
+                sq -> sq.getIndex() == toIndex).findFirst());
+        moveAndCalculateInner();
+    }
+
+    private void moveAndCalculateInner() {
         if (legalMoves.getLegalMoves().containsKey(fromSquare.orElseThrow())) {
             legalMoves.getLegalMoves().get(fromSquare.get()).forEach(pieceLegalMove -> {
                 if (toSquareEquals(pieceLegalMove)) {
-                    moveAndCalculateInner();
+                    moveAndCalculateInner2();
 
                     return;
                 }
@@ -69,7 +77,7 @@ public class GameMaster {
         return Square.isLetterNumberEqual(toSquare.orElseThrow().getLetter(), square.getLetter(), toSquare.get().getNumber(), square.getNumber());
     }
 
-    private void moveAndCalculateInner() {
+    private void moveAndCalculateInner2() {
         move();
         calculate();
     }

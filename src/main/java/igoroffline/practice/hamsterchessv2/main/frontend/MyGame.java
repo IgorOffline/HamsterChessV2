@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
+import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
 import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import imgui.ImGui;
@@ -36,10 +37,12 @@ public class MyGame extends ApplicationAdapter {
     private final int boardSize = 8;
     private final int squareSize = 80;
     private final int windowHeight = 720;
-    private int selectedSquareIndex = 0;
     // temp hack
     private final int[] moveRightIllegal = new int[boardSize];
+    private int selectedSquareIndex = 0;
     private Optional<Square> selectedSquare = Optional.empty();
+    private Optional<Square> fromSquare = Optional.empty();
+    private Optional<Square> toSquare = Optional.empty();
 
     private Camera cam;
     private Viewport viewport;
@@ -91,6 +94,22 @@ public class MyGame extends ApplicationAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.L) && (Arrays.binarySearch(moveRightIllegal, selectedSquareIndex) < 0)) {
             selectedSquareIndex++;
             newSquareSelected();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && selectedSquare.isPresent()) {
+            boolean colorOk = gameMaster.isWhiteToMove() ?
+                    selectedSquare.get().getPieceColor() == PieceColor.WHITE : selectedSquare.get().getPieceColor() == PieceColor.BLACK;
+            if (colorOk) {
+                fromSquare = gameMaster.getLegalMoves().getLegalMoves().keySet().stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+            }
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && fromSquare.isPresent()) {
+            final var legalMoves = gameMaster.getLegalMoves().getLegalMoves().get(fromSquare.get());
+            final var toSquareFound = legalMoves.stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+            if (toSquareFound.isPresent()) {
+                toSquare = toSquareFound;
+
+                gameMaster.moveAndCalculate(fromSquare.get().getIndex(), toSquare.get().getIndex());
+            }
         }
 
         if (!ImGui.isAnyItemActive()) {
@@ -268,6 +287,11 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("counter1: " + counter1);
             ImGui.text("counter2: " + counter2);
             ImGui.text("selectedSquareIndex: " + selectedSquareIndex);
+            var guiFromIndex = -1;
+            if (fromSquare.isPresent()) {
+                guiFromIndex = fromSquare.get().getIndex();
+            }
+            ImGui.text("fromIndex: " + guiFromIndex);
             var legalSquaresCount = -1;
             if (selectedSquare.isPresent()) {
                 legalSquaresCount = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get()).size();
