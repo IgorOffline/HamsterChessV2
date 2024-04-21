@@ -105,6 +105,24 @@ public class MyGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapeRenderer.setProjectionMatrix(cam.combined);
+        renderShapesAndTextures();
+        myImgui.render();
+    }
+
+    private void newSquareSelected() {
+        selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
+                .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+    }
+
+    private void renderShapesAndTextures() {
+        renderBoard();
+        renderLetterNumbers();
+        renderLegalMoveIndicator();
+        renderPieces();
+        renderSelectedSquarePointer();
+    }
+
+    private void renderBoard() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         boolean colorSwitch = true;
         for (int i = 0; i < boardSize; i++) {
@@ -122,6 +140,9 @@ public class MyGame extends ApplicationAdapter {
             colorSwitch = !colorSwitch;
         }
         shapeRenderer.end();
+    }
+
+    private void renderLetterNumbers() {
         spriteBatch.begin();
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -134,6 +155,9 @@ public class MyGame extends ApplicationAdapter {
             }
         }
         spriteBatch.end();
+    }
+
+    private void renderLegalMoveIndicator() {
         if (selectedSquare.isPresent()) {
             final var legalMoves = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get());
             spriteBatch.begin();
@@ -151,6 +175,9 @@ public class MyGame extends ApplicationAdapter {
             }
             spriteBatch.end();
         }
+    }
+
+    private void renderPieces() {
         spriteBatch.begin();
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -168,6 +195,9 @@ public class MyGame extends ApplicationAdapter {
             }
         }
         spriteBatch.end();
+    }
+
+    private void renderSelectedSquarePointer() {
         spriteBatch.begin();
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -184,12 +214,6 @@ public class MyGame extends ApplicationAdapter {
             }
         }
         spriteBatch.end();
-        myImgui.render();
-    }
-
-    private void newSquareSelected() {
-        selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
-                .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
     }
 
     @Override
