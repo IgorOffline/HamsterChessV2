@@ -1,4 +1,4 @@
-package igoroffline.practice.hamsterchessv2.main;
+package igoroffline.practice.hamsterchessv2.main.frontend;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;

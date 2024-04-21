@@ -1,6 +1,6 @@
 package igoroffline.practice.hamsterchessv2.main.board;
 
-import igoroffline.practice.hamsterchessv2.main.Messages;
+import igoroffline.practice.hamsterchessv2.main.util.Messages;
 
 public class LetterNumber {
 

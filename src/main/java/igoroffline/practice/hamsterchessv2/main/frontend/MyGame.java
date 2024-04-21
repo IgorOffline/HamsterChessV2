@@ -1,4 +1,4 @@
-package igoroffline.practice.hamsterchessv2.main;
+package igoroffline.practice.hamsterchessv2.main.frontend;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -14,9 +14,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
+import igoroffline.practice.hamsterchessv2.main.board.Square;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
@@ -39,10 +41,7 @@ public class MyGame extends ApplicationAdapter {
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
-    private Texture textureKingWhite;
-    private Texture textureKingBlack;
-    private Texture textureRookWhite;
-    private Texture textureRookBlack;
+    private Textures textures;
 
     private MyImgui myImgui;
 
@@ -59,10 +58,7 @@ public class MyGame extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
-        textureKingWhite = new Texture("assets/Chess_klt45_p.png");
-        textureKingBlack = new Texture("assets/Chess_kdt45_p.png");
-        textureRookWhite = new Texture("assets/Chess_rlt45_p.png");
-        textureRookBlack = new Texture("assets/Chess_rdt45_p.png");
+        textures = new Textures();
 
         myImgui = new MyImgui();
     }
@@ -121,16 +117,7 @@ public class MyGame extends ApplicationAdapter {
                 final var yOffset = 10F;
                 final var rectY = windowHeight - 105F - j * squareSize + yOffset;
                 final var rectSize = 60F;
-                Texture textureRender = null;
-                if (square.getPiece() == Piece.KING && square.getPieceColor() == PieceColor.WHITE) {
-                    textureRender = textureKingWhite;
-                } else if (square.getPiece() == Piece.KING && square.getPieceColor() == PieceColor.BLACK) {
-                    textureRender = textureKingBlack;
-                } else if (square.getPiece() == Piece.ROOK && square.getPieceColor() == PieceColor.WHITE) {
-                    textureRender = textureRookWhite;
-                } else if (square.getPiece() == Piece.ROOK && square.getPieceColor() == PieceColor.BLACK) {
-                    textureRender = textureRookBlack;
-                }
+                Texture textureRender = textures.getPieceTexture(square);
                 if (textureRender != null) {
                     spriteBatch.draw(textureRender, rectX, rectY, rectSize, rectSize);
                 }
@@ -150,10 +137,7 @@ public class MyGame extends ApplicationAdapter {
         shapeRenderer.dispose();
         spriteBatch.dispose();
         font.dispose();
-        textureKingWhite.dispose();
-        textureKingBlack.dispose();
-        textureRookWhite.dispose();
-        textureRookBlack.dispose();
+        textures.dispose();
 
         myImgui.dispose();
     }

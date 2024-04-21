@@ -1,4 +1,4 @@
-package igoroffline.practice.hamsterchessv2.main;
+package igoroffline.practice.hamsterchessv2.main.game;
 
 import igoroffline.practice.hamsterchessv2.main.board.Board;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
