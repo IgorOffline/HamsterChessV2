@@ -214,6 +214,13 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("counter1: " + counter1);
             ImGui.text("counter2: " + counter2);
             ImGui.text("selectedSquareIndex: " + selectedSquareIndex);
+            var legalSquaresCount = -1;
+            final var selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
+                    .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+            if (selectedSquare.isPresent()) {
+                legalSquaresCount = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get()).size();
+            }
+            ImGui.text("legalSquaresCount: " + legalSquaresCount);
             // ---
 
             ImGui.render();
