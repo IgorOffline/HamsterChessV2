@@ -14,8 +14,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
+import igoroffline.practice.hamsterchessv2.main.board.Square;
+import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
@@ -26,6 +27,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Slf4j
 public class MyGame extends ApplicationAdapter {
@@ -37,6 +39,7 @@ public class MyGame extends ApplicationAdapter {
     private int selectedSquareIndex = 0;
     // temp hack
     private final int[] moveRightIllegal = new int[boardSize];
+    private Optional<Square> selectedSquare = Optional.empty();
 
     private Camera cam;
     private Viewport viewport;
@@ -58,6 +61,7 @@ public class MyGame extends ApplicationAdapter {
         for (int i = 0; i < moveRightIllegal.length; i++) {
             moveRightIllegal[i] = i * boardSize + boardSize - 1;
         }
+        newSquareSelected();
 
         cam = new OrthographicCamera(1280, windowHeight);
         viewport = new FitViewport(1280, windowHeight, cam);
@@ -74,15 +78,19 @@ public class MyGame extends ApplicationAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.J) && selectedSquareIndex < boardSize * boardSize - boardSize) {
             selectedSquareIndex += boardSize;
+            newSquareSelected();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.K) && selectedSquareIndex >= boardSize) {
             selectedSquareIndex -= boardSize;
+            newSquareSelected();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.H) && selectedSquareIndex % boardSize != 0) {
             selectedSquareIndex--;
+            newSquareSelected();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.L) && (Arrays.binarySearch(moveRightIllegal, selectedSquareIndex) < 0)) {
             selectedSquareIndex++;
+            newSquareSelected();
         }
 
         if (!ImGui.isAnyItemActive()) {
@@ -126,6 +134,23 @@ public class MyGame extends ApplicationAdapter {
             }
         }
         spriteBatch.end();
+        if (selectedSquare.isPresent()) {
+            final var legalMoves = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get());
+            spriteBatch.begin();
+            for (final var legalMove : legalMoves) {
+                for (int i = 0; i < boardSize; i++) {
+                    for (int j = 0; j < boardSize; j++) {
+                        final var drawIndex = j * 8 + i;
+                        if (drawIndex == legalMove.getIndex()) {
+                            final var rectX = 25F + i * squareSize;
+                            final var rectY = windowHeight - 100F + 55F - j * squareSize;
+                            spriteBatch.draw(textures.getTextureLegalMoveIndicator(), rectX, rectY, 20F, 20F);
+                        }
+                    }
+                }
+            }
+            spriteBatch.end();
+        }
         spriteBatch.begin();
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -160,6 +185,11 @@ public class MyGame extends ApplicationAdapter {
         }
         spriteBatch.end();
         myImgui.render();
+    }
+
+    private void newSquareSelected() {
+        selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
+                .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
     }
 
     @Override
@@ -215,8 +245,6 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("counter2: " + counter2);
             ImGui.text("selectedSquareIndex: " + selectedSquareIndex);
             var legalSquaresCount = -1;
-            final var selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
-                    .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
             if (selectedSquare.isPresent()) {
                 legalSquaresCount = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get()).size();
             }

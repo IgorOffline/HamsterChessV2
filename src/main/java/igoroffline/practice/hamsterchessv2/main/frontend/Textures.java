@@ -20,6 +20,7 @@ public class Textures {
     private final Texture texturePawnWhite;
     private final Texture texturePawnBlack;
     private final Texture textureSelectedSquarePointer;
+    private final Texture textureLegalMoveIndicator;
 
     public Textures() {
         textureKingWhite = new Texture("assets/Chess_klt45_p.png");
@@ -33,6 +34,7 @@ public class Textures {
         texturePawnWhite = new Texture("assets/Chess_plt45_p.png");
         texturePawnBlack = new Texture("assets/Chess_pdt45_p.png");
         textureSelectedSquarePointer = new Texture("assets/openmoji1F449yellow_p.png");
+        textureLegalMoveIndicator = new Texture("assets/openmoji1F535_p.png");
     }
 
     public Texture getPieceTexture(Square square) {
@@ -76,5 +78,6 @@ public class Textures {
         texturePawnWhite.dispose();
         texturePawnBlack.dispose();
         textureSelectedSquarePointer.dispose();
+        textureLegalMoveIndicator.dispose();
     }
 }
