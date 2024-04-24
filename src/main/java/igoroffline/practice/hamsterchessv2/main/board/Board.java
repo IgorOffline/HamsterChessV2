@@ -2,13 +2,12 @@ package igoroffline.practice.hamsterchessv2.main.board;
 
 import igoroffline.practice.hamsterchessv2.main.piece.movement.pawn.PawnAttackMovementDirection;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.pawn.PawnMove;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode
@@ -40,20 +39,20 @@ public class Board {
                 new Square(Letter.F, Number2.N2, Piece.KNIGHT, PieceColor.WHITE),
                 new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
 
-//        final var filledSquares = List.of(
-//                new Square(Letter.C, Number2.N6, Piece.KING, PieceColor.BLACK),
-//                new Square(Letter.A, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.G, Number2.N5, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.G, Number2.N6, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.H, Number2.N6, Piece.PAWN, PieceColor.BLACK),
-//
-//                new Square(Letter.F, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.G, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-//                new Square(Letter.H, Number2.N7, Piece.PAWN, PieceColor.BLACK),
-//
-//                new Square(Letter.E, Number2.N3, Piece.KING, PieceColor.WHITE),
-//                new Square(Letter.H, Number2.N4, Piece.PAWN, PieceColor.WHITE),
-//                new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
+        //        final var filledSquares = List.of(
+        //                new Square(Letter.C, Number2.N6, Piece.KING, PieceColor.BLACK),
+        //                new Square(Letter.A, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+        //                new Square(Letter.G, Number2.N5, Piece.PAWN, PieceColor.BLACK),
+        //                new Square(Letter.G, Number2.N6, Piece.PAWN, PieceColor.BLACK),
+        //                new Square(Letter.H, Number2.N6, Piece.PAWN, PieceColor.BLACK),
+        //
+        //                new Square(Letter.F, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+        //                new Square(Letter.G, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+        //                new Square(Letter.H, Number2.N7, Piece.PAWN, PieceColor.BLACK),
+        //
+        //                new Square(Letter.E, Number2.N3, Piece.KING, PieceColor.WHITE),
+        //                new Square(Letter.H, Number2.N4, Piece.PAWN, PieceColor.WHITE),
+        //                new Square(Letter.H, Number2.N2, Piece.PAWN, PieceColor.WHITE));
 
         for (int j = 0; j < 8; j++) {
             for (int i = 0; i < 8; i++) {
@@ -124,8 +123,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var nextNumberIndex = number.index + 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
             final var squareIndex = (8 * (7 - nextNumberIndex)) + previousLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -138,8 +137,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var nextNumberIndex = number.index + 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
             final var squareIndex = (8 * (7 - nextNumberIndex)) + nextLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -152,8 +151,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var previousNumberIndex = number.index - 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
             final var squareIndex = (8 * (7 - previousNumberIndex)) + previousLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -166,8 +165,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var previousNumberIndex = number.index - 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
             final var squareIndex = (8 * (7 - previousNumberIndex)) + nextLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -180,8 +179,8 @@ public class Board {
         final var ppLetterIndex = letter.index - 2;
         final var nextNumberIndex = number.index + 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
             final var squareIndex = (8 * (7 - nextNumberIndex)) + ppLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -194,8 +193,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var nnNumberIndex = number.index + 2;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
             final var squareIndex = (8 * (7 - nnNumberIndex)) + previousLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -208,8 +207,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var nnNumberIndex = number.index + 2;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
             final var squareIndex = (8 * (7 - nnNumberIndex)) + nextLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -222,8 +221,8 @@ public class Board {
         final var nnLetterIndex = letter.index + 2;
         final var nextNumberIndex = number.index + 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
             final var squareIndex = (8 * (7 - nextNumberIndex)) + nnLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -236,8 +235,8 @@ public class Board {
         final var ppLetterIndex = letter.index - 2;
         final var previousNumberIndex = number.index - 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
             final var squareIndex = (8 * (7 - previousNumberIndex)) + ppLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -250,8 +249,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var ppNumberIndex = number.index - 2;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
             final var squareIndex = (8 * (7 - ppNumberIndex)) + previousLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -264,8 +263,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var ppNumberIndex = number.index - 2;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
             final var squareIndex = (8 * (7 - ppNumberIndex)) + nextLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -278,8 +277,8 @@ public class Board {
         final var nnLetterIndex = letter.index + 2;
         final var previousNumberIndex = number.index - 1;
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
             final var squareIndex = (8 * (7 - previousNumberIndex)) + nnLetterIndex;
             return Optional.of(board.get(squareIndex));
         }
@@ -287,25 +286,26 @@ public class Board {
         return Optional.empty();
     }
 
-    public Optional<Square> findPawnMoveSquare(PawnMove pawnMove, PieceColor pieceColor, Letter letter, Number2 number) {
+    public Optional<Square> findPawnMoveSquare(
+            PawnMove pawnMove, PieceColor pieceColor, Letter letter, Number2 number) {
 
         var numberIndex = -1;
 
         switch (pawnMove) {
-            case ONE_SQUARE -> numberIndex = switch(pieceColor) {
+            case ONE_SQUARE -> numberIndex = switch (pieceColor) {
                 case WHITE -> number.index + 1;
                 case BLACK -> number.index - 1;
                 case NONE -> throw new IllegalArgumentException("PieceColor.NONE not supported!");
             };
-            case TWO_SQUARES -> numberIndex = switch(pieceColor) {
+            case TWO_SQUARES -> numberIndex = switch (pieceColor) {
                 case WHITE -> number.index + 2;
                 case BLACK -> number.index - 2;
                 case NONE -> throw new IllegalArgumentException("PieceColor.NONE not supported! (2)");
             };
         }
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letter.index)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letter.index))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
             final var squareIndex = (8 * (7 - numberIndex)) + letter.index;
             return Optional.of(board.get(squareIndex));
         }
@@ -313,21 +313,24 @@ public class Board {
         return Optional.empty();
     }
 
-    public Optional<Square> findPawnAttackPreviousOrNextLetterSquare(PawnAttackMovementDirection movementDirection, PieceColor pieceColor, Letter letter, Number2 number) {
+    public Optional<Square> findPawnAttackPreviousOrNextLetterSquare(
+            PawnAttackMovementDirection movementDirection, PieceColor pieceColor, Letter letter, Number2 number) {
 
-        final var letterIndex = switch(movementDirection) {
-            case PREVIOUS -> letter.index - 1;
-            case NEXT -> letter.index + 1;
-        };
+        final var letterIndex =
+                switch (movementDirection) {
+                    case PREVIOUS -> letter.index - 1;
+                    case NEXT -> letter.index + 1;
+                };
 
-        final var numberIndex = switch(pieceColor) {
-            case WHITE -> number.index + 1;
-            case BLACK -> number.index - 1;
-            case NONE -> throw new IllegalArgumentException("PieceColor.NONE not supported!");
-        };
+        final var numberIndex =
+                switch (pieceColor) {
+                    case WHITE -> number.index + 1;
+                    case BLACK -> number.index - 1;
+                    case NONE -> throw new IllegalArgumentException("PieceColor.NONE not supported!");
+                };
 
-        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letterIndex)) &&
-                LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
+        if (LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letterIndex))
+                && LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
             final var squareIndex = (8 * (7 - numberIndex)) + letterIndex;
             return Optional.of(board.get(squareIndex));
         }

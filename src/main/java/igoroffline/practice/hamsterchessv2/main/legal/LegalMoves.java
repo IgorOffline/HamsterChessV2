@@ -1,23 +1,22 @@
 package igoroffline.practice.hamsterchessv2.main.legal;
 
-import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
+import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.piece.Bishop;
 import igoroffline.practice.hamsterchessv2.main.piece.King;
 import igoroffline.practice.hamsterchessv2.main.piece.Knight;
 import igoroffline.practice.hamsterchessv2.main.piece.Pawn;
 import igoroffline.practice.hamsterchessv2.main.piece.Rook;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode
@@ -125,13 +124,17 @@ public class LegalMoves {
             final var newBoard = gameMaster.getBoard().deepCopy();
             final var newLegalMoves = new LegalMoves();
             final var newGameMaster = new GameMaster(newBoard, newLegalMoves);
-            final var pieceNewBoard = newBoard.getBoard().stream().filter(square ->
-                    square.getLetter() == piece.getLetter() && square.getNumber() == piece.getNumber()).findFirst();
+            final var pieceNewBoard = newBoard.getBoard().stream()
+                    .filter(square ->
+                            square.getLetter() == piece.getLetter() && square.getNumber() == piece.getNumber())
+                    .findFirst();
             // assert
             pieceNewBoard.orElseThrow();
             newGameMaster.setFromSquare(pieceNewBoard);
-            final var toSquareNewBoard = newBoard.getBoard().stream().filter(
-                    square -> square.getLetter() == legalMove.getLetter() && square.getNumber() == legalMove.getNumber()).findFirst();
+            final var toSquareNewBoard = newBoard.getBoard().stream()
+                    .filter(square ->
+                            square.getLetter() == legalMove.getLetter() && square.getNumber() == legalMove.getNumber())
+                    .findFirst();
             // assert
             toSquareNewBoard.orElseThrow();
             newGameMaster.setToSquare(toSquareNewBoard);

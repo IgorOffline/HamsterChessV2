@@ -10,7 +10,6 @@ import igoroffline.practice.hamsterchessv2.main.piece.movement.FindSquare;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.MovementAttackOpponentCheck;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.MovementContact;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.PieceMovement;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,23 +29,28 @@ public class Pawn {
         final var white2OrBlack7 = white2 || black7;
 
         if (white2OrBlack7 && movement1.contact() == Contact.NONE) {
-            movement2 = Optional.of(FindSquare.findSquare(Piece.PAWN, PieceMovement.PAWN_MOVE_TWO_SQUARES, pawnSquare, board));
+            movement2 = Optional.of(
+                    FindSquare.findSquare(Piece.PAWN, PieceMovement.PAWN_MOVE_TWO_SQUARES, pawnSquare, board));
         }
 
-        final var attack1 = FindSquare.findSquare(Piece.PAWN, PieceMovement.PAWN_ATTACK_PREVIOUS_LETTER, pawnSquare, board);
+        final var attack1 =
+                FindSquare.findSquare(Piece.PAWN, PieceMovement.PAWN_ATTACK_PREVIOUS_LETTER, pawnSquare, board);
         final var attack2 = FindSquare.findSquare(Piece.PAWN, PieceMovement.PAWN_ATTACK_NEXT_LETTER, pawnSquare, board);
 
-        final var movements = movement2.map(contact -> List.of(movement1, contact)).orElseGet(() -> List.of(movement1));
-        movements.stream().filter(movement -> movement.contact() == Contact.NONE)
+        final var movements =
+                movement2.map(contact -> List.of(movement1, contact)).orElseGet(() -> List.of(movement1));
+        movements.stream()
+                .filter(movement -> movement.contact() == Contact.NONE)
                 .forEach(movement -> movementSquares.addAll(movement.squares()));
 
         final var attacks = List.of(attack1, attack2);
         attacks.forEach(attack -> attackSquares.addAll(attack.squares()));
-        attacks.stream().filter(attack -> attack.contact() == Contact.OPPONENT_NON_KING)
+        attacks.stream()
+                .filter(attack -> attack.contact() == Contact.OPPONENT_NON_KING)
                 .forEach(attack -> movementSquares.addAll(attack.squares()));
 
-        final var opponentsKingInCheck = attacks.stream().anyMatch(movementContact ->
-                movementContact.contact() == Contact.OPPONENT_KING);
+        final var opponentsKingInCheck =
+                attacks.stream().anyMatch(movementContact -> movementContact.contact() == Contact.OPPONENT_KING);
 
         return new MovementAttackOpponentCheck(movementSquares, attackSquares, opponentsKingInCheck);
     }

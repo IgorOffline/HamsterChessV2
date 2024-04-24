@@ -5,7 +5,6 @@ import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

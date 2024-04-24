@@ -17,6 +17,7 @@ public class Square {
 
     @Setter
     private Piece piece;
+
     @Setter
     private PieceColor pieceColor;
 

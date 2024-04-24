@@ -1,10 +1,10 @@
 package igoroffline.practice.hamsterchessv2.main.legal;
 
-import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
-import igoroffline.practice.hamsterchessv2.main.util.Messages;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
+import igoroffline.practice.hamsterchessv2.main.game.GameMaster;
 import igoroffline.practice.hamsterchessv2.main.piece.Rook;
+import igoroffline.practice.hamsterchessv2.main.util.Messages;
 
 public class Pruning {
 

@@ -23,12 +23,11 @@ import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 import imgui.type.ImString;
+import java.util.Arrays;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 @Slf4j
 public class MyGame extends ApplicationAdapter {
@@ -91,24 +90,31 @@ public class MyGame extends ApplicationAdapter {
             selectedSquareIndex--;
             newSquareSelected();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L) && (Arrays.binarySearch(moveRightIllegal, selectedSquareIndex) < 0)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)
+                && (Arrays.binarySearch(moveRightIllegal, selectedSquareIndex) < 0)) {
             selectedSquareIndex++;
             newSquareSelected();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && selectedSquare.isPresent()) {
-            boolean colorOk = gameMaster.isWhiteToMove() ?
-                    selectedSquare.get().getPieceColor() == PieceColor.WHITE : selectedSquare.get().getPieceColor() == PieceColor.BLACK;
+            boolean colorOk = gameMaster.isWhiteToMove()
+                    ? selectedSquare.get().getPieceColor() == PieceColor.WHITE
+                    : selectedSquare.get().getPieceColor() == PieceColor.BLACK;
             if (colorOk) {
-                fromSquare = gameMaster.getLegalMoves().getLegalMoves().keySet().stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+                fromSquare = gameMaster.getLegalMoves().getLegalMoves().keySet().stream()
+                        .filter(sq -> selectedSquareIndex == sq.getIndex())
+                        .findFirst();
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) && fromSquare.isPresent()) {
             final var legalMoves = gameMaster.getLegalMoves().getLegalMoves().get(fromSquare.get());
-            final var toSquareFound = legalMoves.stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+            final var toSquareFound = legalMoves.stream()
+                    .filter(sq -> selectedSquareIndex == sq.getIndex())
+                    .findFirst();
             if (toSquareFound.isPresent()) {
                 toSquare = toSquareFound;
 
-                gameMaster.moveAndCalculate(fromSquare.get().getIndex(), toSquare.get().getIndex());
+                gameMaster.moveAndCalculate(
+                        fromSquare.get().getIndex(), toSquare.get().getIndex());
             }
         }
 
@@ -129,8 +135,9 @@ public class MyGame extends ApplicationAdapter {
     }
 
     private void newSquareSelected() {
-        selectedSquare =  gameMaster.getLegalMoves().getLegalMoves().keySet()
-                .stream().filter(sq -> selectedSquareIndex == sq.getIndex()).findFirst();
+        selectedSquare = gameMaster.getLegalMoves().getLegalMoves().keySet().stream()
+                .filter(sq -> selectedSquareIndex == sq.getIndex())
+                .findFirst();
     }
 
     private void renderShapesAndTextures() {
@@ -278,8 +285,7 @@ public class MyGame extends ApplicationAdapter {
             ImGui.newFrame();
 
             // --- ImGUI draw commands go here ---
-            if (ImGui.button("I'm a Button!"))
-            {
+            if (ImGui.button("I'm a Button!")) {
                 log.info("<PRESS>");
             }
             ImGui.inputText("Input", guiInput);
@@ -294,7 +300,11 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("fromIndex: " + guiFromIndex);
             var legalSquaresCount = -1;
             if (selectedSquare.isPresent()) {
-                legalSquaresCount = gameMaster.getLegalMoves().getLegalMoves().get(selectedSquare.get()).size();
+                legalSquaresCount = gameMaster
+                        .getLegalMoves()
+                        .getLegalMoves()
+                        .get(selectedSquare.get())
+                        .size();
             }
             ImGui.text("legalSquaresCount: " + legalSquaresCount);
             // ---

@@ -7,7 +7,6 @@ import igoroffline.practice.hamsterchessv2.main.piece.movement.Contact;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.FindSquare;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.MovementAttackOpponentCheck;
 import igoroffline.practice.hamsterchessv2.main.piece.movement.PieceMovement;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +24,8 @@ public class Rook {
 
         final var movements = List.of(movement1, movement2, movement3, movement4);
         movements.forEach(movement -> list.addAll(movement.squares()));
-        final var opponentsKingInCheck = movements.stream().anyMatch(movementContact ->
-                movementContact.contact() == Contact.OPPONENT_KING);
+        final var opponentsKingInCheck =
+                movements.stream().anyMatch(movementContact -> movementContact.contact() == Contact.OPPONENT_KING);
 
         return new MovementAttackOpponentCheck(list, Collections.emptyList(), opponentsKingInCheck);
     }

@@ -6,12 +6,11 @@ import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
 import igoroffline.practice.hamsterchessv2.main.legal.EnrichedLegalMoves;
 import igoroffline.practice.hamsterchessv2.main.legal.LegalMoves;
+import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Optional;
 
 @Getter
 @ToString
@@ -23,6 +22,7 @@ public class GameMaster {
 
     @Setter
     private Optional<Square> fromSquare;
+
     @Setter
     private Optional<Square> toSquare;
 
@@ -30,11 +30,13 @@ public class GameMaster {
 
     @Setter
     private boolean whiteKingInCheck = false;
+
     @Setter
     private boolean blackKingInCheck = false;
 
     @Setter
     private boolean whiteKingCheckmated = false;
+
     @Setter
     private boolean blackKingCheckmated = false;
 
@@ -54,10 +56,12 @@ public class GameMaster {
     }
 
     public void moveAndCalculate(int fromIndex, int toIndex) {
-        setFromSquare(getBoard().getBoard().stream().filter(
-                sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE).findFirst());
-        setToSquare(getBoard().getBoard().stream().filter(
-                sq -> sq.getIndex() == toIndex).findFirst());
+        setFromSquare(getBoard().getBoard().stream()
+                .filter(sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE)
+                .findFirst());
+        setToSquare(getBoard().getBoard().stream()
+                .filter(sq -> sq.getIndex() == toIndex)
+                .findFirst());
         moveAndCalculateInner();
     }
 
@@ -74,7 +78,11 @@ public class GameMaster {
     }
 
     private boolean toSquareEquals(Square square) {
-        return Square.isLetterNumberEqual(toSquare.orElseThrow().getLetter(), square.getLetter(), toSquare.get().getNumber(), square.getNumber());
+        return Square.isLetterNumberEqual(
+                toSquare.orElseThrow().getLetter(),
+                square.getLetter(),
+                toSquare.get().getNumber(),
+                square.getNumber());
     }
 
     private void moveAndCalculateInner2() {
