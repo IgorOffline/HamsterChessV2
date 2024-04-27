@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class Textures {
 
+    private final Texture textureColor1;
+    private final Texture textureColor2;
     private final Texture textureKingWhite;
     private final Texture textureKingBlack;
     private final Texture textureRookWhite;
@@ -23,6 +25,8 @@ public class Textures {
     private final Texture textureLegalMoveIndicator;
 
     public Textures() {
+        textureColor1 = new Texture("assets/color1_1000.png");
+        textureColor2 = new Texture("assets/color2_1000.png");
         textureKingWhite = new Texture("assets/Chess_klt45_p.png");
         textureKingBlack = new Texture("assets/Chess_kdt45_p.png");
         textureRookWhite = new Texture("assets/Chess_rlt45_p.png");
@@ -67,6 +71,8 @@ public class Textures {
     }
 
     public void dispose() {
+        textureColor1.dispose();
+        textureColor2.dispose();
         textureKingWhite.dispose();
         textureKingBlack.dispose();
         textureRookWhite.dispose();

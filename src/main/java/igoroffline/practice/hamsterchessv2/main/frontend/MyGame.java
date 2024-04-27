@@ -149,23 +149,24 @@ public class MyGame extends ApplicationAdapter {
     }
 
     private void renderBoard() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        spriteBatch.begin();
         boolean colorSwitch = true;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
+                Texture texture;
                 if (colorSwitch) {
-                    shapeRenderer.setColor(Color.valueOf("FFF0D9B5"));
+                    texture = textures.getTextureColor1();
                 } else {
-                    shapeRenderer.setColor(Color.valueOf("FFB58863"));
+                    texture = textures.getTextureColor2();
                 }
                 final var rectX = 25F + i * squareSize;
                 final var rectY = windowHeight - 105F - j * squareSize;
-                shapeRenderer.rect(rectX, rectY, squareSize, squareSize);
+                spriteBatch.draw(texture, rectX, rectY, squareSize, squareSize);
                 colorSwitch = !colorSwitch;
             }
             colorSwitch = !colorSwitch;
         }
-        shapeRenderer.end();
+        spriteBatch.end();
     }
 
     private void renderLetterNumbers() {
@@ -285,6 +286,7 @@ public class MyGame extends ApplicationAdapter {
             ImGui.newFrame();
 
             // --- ImGUI draw commands go here ---
+            ImGui.begin("Hamster Chess V2");
             if (ImGui.button("I'm a Button!")) {
                 log.info("<PRESS>");
             }
@@ -307,6 +309,7 @@ public class MyGame extends ApplicationAdapter {
                         .size();
             }
             ImGui.text("legalSquaresCount: " + legalSquaresCount);
+            ImGui.end();
             // ---
 
             ImGui.render();
