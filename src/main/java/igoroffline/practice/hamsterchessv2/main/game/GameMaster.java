@@ -2,10 +2,10 @@ package igoroffline.practice.hamsterchessv2.main.game;
 
 import igoroffline.practice.hamsterchessv2.main.board.Board;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
-import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
 import igoroffline.practice.hamsterchessv2.main.legal.EnrichedLegalMoves;
 import igoroffline.practice.hamsterchessv2.main.legal.LegalMoves;
+import java.util.List;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,6 +26,7 @@ public class GameMaster {
     @Setter
     private Optional<Square> toSquare;
 
+    @Setter
     private boolean whiteToMove = true;
 
     @Setter
@@ -47,7 +48,7 @@ public class GameMaster {
     public GameMaster() {
         this.board = new Board();
         this.legalMoves = new LegalMoves();
-        legalMoves.calculate(this);
+        legalMoves.calculate(this, false);
     }
 
     public GameMaster(Board board, LegalMoves legalMoves) {
@@ -56,12 +57,11 @@ public class GameMaster {
     }
 
     public void moveAndCalculate(int fromIndex, int toIndex) {
-        setFromSquare(getBoard().getBoard().stream()
+        setFromSquare(getBoardInner().stream()
                 .filter(sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE)
                 .findFirst());
-        setToSquare(getBoard().getBoard().stream()
-                .filter(sq -> sq.getIndex() == toIndex)
-                .findFirst());
+        setToSquare(
+                getBoardInner().stream().filter(sq -> sq.getIndex() == toIndex).findFirst());
         moveAndCalculateInner();
     }
 
@@ -69,7 +69,8 @@ public class GameMaster {
         if (legalMoves.getLegalMoves().containsKey(fromSquare.orElseThrow())) {
             legalMoves.getLegalMoves().get(fromSquare.get()).forEach(pieceLegalMove -> {
                 if (toSquareEquals(pieceLegalMove)) {
-                    moveAndCalculateInner2();
+                    legalMoves.move(this);
+                    legalMoves.calculate(this, true);
 
                     return;
                 }
@@ -85,21 +86,7 @@ public class GameMaster {
                 square.getNumber());
     }
 
-    private void moveAndCalculateInner2() {
-        move();
-        calculate();
-    }
-
-    public void move() {
-        toSquare.orElseThrow().setPiece(fromSquare.orElseThrow().getPiece());
-        toSquare.get().setPieceColor(fromSquare.get().getPieceColor());
-        fromSquare.get().setPiece(Piece.NONE);
-        fromSquare.get().setPieceColor(PieceColor.NONE);
-    }
-
-    private void calculate() {
-        whiteToMove = !whiteToMove;
-
-        legalMoves.calculate(this);
+    private List<Square> getBoardInner() {
+        return board.getBoard();
     }
 }

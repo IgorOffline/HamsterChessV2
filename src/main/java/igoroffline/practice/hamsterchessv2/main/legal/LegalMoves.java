@@ -25,7 +25,20 @@ public class LegalMoves {
 
     private Map<Square, List<Square>> legalMoves = new HashMap<>();
 
-    public void calculate(GameMaster gameMaster) {
+    public void move(GameMaster gameMaster) {
+        final var fromSquare = gameMaster.getFromSquare().orElseThrow();
+        final var toSquare = gameMaster.getToSquare().orElseThrow();
+        toSquare.setPiece(fromSquare.getPiece());
+        toSquare.setPieceColor(fromSquare.getPieceColor());
+        fromSquare.setPiece(Piece.NONE);
+        fromSquare.setPieceColor(PieceColor.NONE);
+    }
+
+    public void calculate(GameMaster gameMaster, boolean switchWhiteToMove) {
+
+        if (switchWhiteToMove) {
+            gameMaster.setWhiteToMove(!gameMaster.isWhiteToMove());
+        }
 
         final var phase1LegalMoves = new HashMap<Square, List<Square>>();
         final var phase2LegalMoves = new HashMap<Square, List<Square>>();
@@ -138,7 +151,7 @@ public class LegalMoves {
             // assert
             toSquareNewBoard.orElseThrow();
             newGameMaster.setToSquare(toSquareNewBoard);
-            newGameMaster.move();
+            newLegalMoves.move(newGameMaster);
             Pruning.prune(newGameMaster, piece.getPieceColor());
 
             final var pruneWhite = piece.getPieceColor() == PieceColor.WHITE && !newGameMaster.isWhiteKingInCheck();
