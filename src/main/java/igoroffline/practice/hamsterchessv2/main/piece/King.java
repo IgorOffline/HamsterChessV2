@@ -19,10 +19,13 @@ public class King {
 
         Optional<Square> oppositeKingSquare = Optional.empty();
 
-        for (var square : board.getBoard()) {
-            if (square.getPiece() == Piece.KING && square.getPieceColor() == oppositeColor) {
-                oppositeKingSquare = Optional.of(square);
-                break;
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var square = board.getBoard()[row][col];
+                if (square.getPiece() == Piece.KING && square.getPieceColor() == oppositeColor) {
+                    // TODO extract method
+                    oppositeKingSquare = Optional.of(square);
+                }
             }
         }
 

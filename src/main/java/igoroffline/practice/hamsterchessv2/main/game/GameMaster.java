@@ -3,7 +3,6 @@ package igoroffline.practice.hamsterchessv2.main.game;
 import igoroffline.practice.hamsterchessv2.main.board.Board;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
-import igoroffline.practice.hamsterchessv2.main.legal.EnrichedLegalMoves;
 import igoroffline.practice.hamsterchessv2.main.legal.LegalMoves;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -40,10 +39,6 @@ public class GameMaster {
     @Setter
     private boolean blackKingCheckmated = false;
 
-    public EnrichedLegalMoves getEnrichedLegalMoves() {
-        return new EnrichedLegalMoves(legalMoves);
-    }
-
     public GameMaster() {
         this.board = new Board();
         this.legalMoves = new LegalMoves();
@@ -56,11 +51,19 @@ public class GameMaster {
     }
 
     public void moveAndCalculate(int fromIndex, int toIndex) {
-        setFromSquare(board.getBoard().stream()
-                .filter(sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE)
-                .findFirst());
-        setToSquare(
-                board.getBoard().stream().filter(sq -> sq.getIndex() == toIndex).findFirst());
+        setFromSquare(Optional.empty());
+        setToSquare(Optional.empty());
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var sq = board.getBoard()[row][col];
+                if (sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE) {
+                    setFromSquare(Optional.of(sq));
+                }
+                if (sq.getIndex() == toIndex) {
+                    setToSquare(Optional.of(sq));
+                }
+            }
+        }
         moveAndCalculateInner();
     }
 
