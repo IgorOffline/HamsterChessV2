@@ -114,6 +114,9 @@ public class MyGame extends ApplicationAdapter {
 
                 gameMaster.moveAndCalculate(
                         fromSquare.get().getIndex(), toSquare.get().getIndex());
+
+                fromSquare = Optional.empty();
+                toSquare = Optional.empty();
             }
         }
 
@@ -294,11 +297,19 @@ public class MyGame extends ApplicationAdapter {
             ImGui.text("counter1: " + counter1);
             ImGui.text("counter2: " + counter2);
             ImGui.text("selectedSquareIndex: " + selectedSquareIndex);
+
             var guiFromIndex = -1;
             if (fromSquare.isPresent()) {
                 guiFromIndex = fromSquare.get().getIndex();
             }
             ImGui.text("fromIndex: " + guiFromIndex);
+
+            var guiToIndex = -1;
+            if (toSquare.isPresent()) {
+                guiToIndex = toSquare.get().getIndex();
+            }
+            ImGui.text("toIndex: " + guiToIndex);
+
             var legalSquaresCount = -1;
             if (selectedSquare.isPresent()) {
                 legalSquaresCount = gameMaster
@@ -307,6 +318,7 @@ public class MyGame extends ApplicationAdapter {
                         .get(selectedSquare.get())
                         .size();
             }
+
             ImGui.text("legalSquaresCount: " + legalSquaresCount);
             ImGui.end();
             // ---

@@ -5,7 +5,6 @@ import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
 import igoroffline.practice.hamsterchessv2.main.legal.EnrichedLegalMoves;
 import igoroffline.practice.hamsterchessv2.main.legal.LegalMoves;
-import java.util.List;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -57,11 +56,11 @@ public class GameMaster {
     }
 
     public void moveAndCalculate(int fromIndex, int toIndex) {
-        setFromSquare(getBoardInner().stream()
+        setFromSquare(board.getBoard().stream()
                 .filter(sq -> sq.getIndex() == fromIndex && sq.getPiece() != Piece.NONE)
                 .findFirst());
         setToSquare(
-                getBoardInner().stream().filter(sq -> sq.getIndex() == toIndex).findFirst());
+                board.getBoard().stream().filter(sq -> sq.getIndex() == toIndex).findFirst());
         moveAndCalculateInner();
     }
 
@@ -84,9 +83,5 @@ public class GameMaster {
                 square.getLetter(),
                 toSquare.get().getNumber(),
                 square.getNumber());
-    }
-
-    private List<Square> getBoardInner() {
-        return board.getBoard();
     }
 }
