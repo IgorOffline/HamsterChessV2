@@ -36,6 +36,24 @@ public class LetterNumber {
         };
     }
 
+    public static Letter getLetterEnumReverse(int letter) {
+        return switch (letter) {
+            case -2 -> Letter.R2;
+            case -1 -> Letter.R;
+            case 0 -> Letter.H;
+            case 1 -> Letter.G;
+            case 2 -> Letter.F;
+            case 3 -> Letter.E;
+            case 4 -> Letter.D;
+            case 5 -> Letter.C;
+            case 6 -> Letter.B;
+            case 7 -> Letter.A;
+            case 8 -> Letter.L;
+            case 9 -> Letter.L2;
+            default -> throw new IllegalArgumentException(Messages.UNKNOWN_LETTER);
+        };
+    }
+
     public static String getNumber(int number) {
         return switch (number) {
             case 0 -> "1";

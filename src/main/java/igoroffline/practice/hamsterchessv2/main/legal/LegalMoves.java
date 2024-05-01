@@ -1,5 +1,6 @@
 package igoroffline.practice.hamsterchessv2.main.legal;
 
+import igoroffline.practice.hamsterchessv2.main.board.Board;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
@@ -51,66 +52,74 @@ public class LegalMoves {
 
         Optional<Square> king = Optional.empty();
 
-        for (final var square : gameMaster.getBoard().getBoard()) {
-            if (square.getPiece() == Piece.KING && square.getPieceColor() == pieceColor) {
-                king = Optional.of(square);
-                break;
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var square = gameMaster.getBoard().getBoard()[row][col];
+                if (square.getPiece() == Piece.KING && square.getPieceColor() == pieceColor) {
+                    // TODO extract method
+                    king = Optional.of(square);
+                }
             }
         }
 
         final var kingLegalMoves = King.kingMoves(king.orElseThrow(), gameMaster.getBoard());
 
-        gameMaster.getBoard().getBoard().forEach(boardSquare -> {
-            if (boardSquare.getPiece() == Piece.ROOK && boardSquare.getPieceColor() == pieceColor) {
-                final var rookMoves = Rook.rookMoves(boardSquare, gameMaster.getBoard());
-                phase1LegalMoves.put(boardSquare, rookMoves.movementSquares());
-                kingLegalMoves.removeIf(square ->
-                        square.getLetter() == boardSquare.getLetter() && square.getNumber() == boardSquare.getNumber());
-            } else if (boardSquare.getPiece() == Piece.ROOK && boardSquare.getPieceColor() == oppositePieceColor) {
-                final var oppositeRookMoves = Rook.rookMoves(boardSquare, gameMaster.getBoard());
-                kingLegalMoves.removeAll(oppositeRookMoves.movementSquares());
-                if (oppositeRookMoves.opponentsKingInCheck()) {
-                    gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
-                    gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
-                }
-            } else if (boardSquare.getPiece() == Piece.BISHOP && boardSquare.getPieceColor() == pieceColor) {
-                final var bishopMoves = Bishop.bishopMoves(boardSquare, gameMaster.getBoard());
-                phase1LegalMoves.put(boardSquare, bishopMoves.movementSquares());
-                kingLegalMoves.removeIf(square ->
-                        square.getLetter() == boardSquare.getLetter() && square.getNumber() == boardSquare.getNumber());
-            } else if (boardSquare.getPiece() == Piece.BISHOP && boardSquare.getPieceColor() == oppositePieceColor) {
-                final var oppositeBishopMoves = Bishop.bishopMoves(boardSquare, gameMaster.getBoard());
-                kingLegalMoves.removeAll(oppositeBishopMoves.movementSquares());
-                if (oppositeBishopMoves.opponentsKingInCheck()) {
-                    gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
-                    gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
-                }
-            } else if (boardSquare.getPiece() == Piece.KNIGHT && boardSquare.getPieceColor() == pieceColor) {
-                final var knightMoves = Knight.knightMoves(boardSquare, gameMaster.getBoard());
-                phase1LegalMoves.put(boardSquare, knightMoves.movementSquares());
-                kingLegalMoves.removeIf(square ->
-                        square.getLetter() == boardSquare.getLetter() && square.getNumber() == boardSquare.getNumber());
-            } else if (boardSquare.getPiece() == Piece.KNIGHT && boardSquare.getPieceColor() == oppositePieceColor) {
-                final var oppositeKnightMoves = Knight.knightMoves(boardSquare, gameMaster.getBoard());
-                kingLegalMoves.removeAll(oppositeKnightMoves.movementSquares());
-                if (oppositeKnightMoves.opponentsKingInCheck()) {
-                    gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
-                    gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
-                }
-            } else if (boardSquare.getPiece() == Piece.PAWN && boardSquare.getPieceColor() == pieceColor) {
-                final var pawnMoves = Pawn.pawnMoves(boardSquare, gameMaster.getBoard());
-                phase1LegalMoves.put(boardSquare, pawnMoves.movementSquares());
-                kingLegalMoves.removeIf(square ->
-                        square.getLetter() == boardSquare.getLetter() && square.getNumber() == boardSquare.getNumber());
-            } else if (boardSquare.getPiece() == Piece.PAWN && boardSquare.getPieceColor() == oppositePieceColor) {
-                final var oppositePawnMoves = Pawn.pawnMoves(boardSquare, gameMaster.getBoard());
-                kingLegalMoves.removeAll(oppositePawnMoves.attackSquares());
-                if (oppositePawnMoves.opponentsKingInCheck()) {
-                    gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
-                    gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var boardSquare = gameMaster.getBoard().getBoard()[row][col];
+                if (boardSquare.getPiece() == Piece.ROOK && boardSquare.getPieceColor() == pieceColor) {
+                    final var rookMoves = Rook.rookMoves(boardSquare, gameMaster.getBoard());
+                    phase1LegalMoves.put(boardSquare, rookMoves.movementSquares());
+                    kingLegalMoves.removeIf(square -> square.getLetter() == boardSquare.getLetter()
+                            && square.getNumber() == boardSquare.getNumber());
+                } else if (boardSquare.getPiece() == Piece.ROOK && boardSquare.getPieceColor() == oppositePieceColor) {
+                    final var oppositeRookMoves = Rook.rookMoves(boardSquare, gameMaster.getBoard());
+                    kingLegalMoves.removeAll(oppositeRookMoves.movementSquares());
+                    if (oppositeRookMoves.opponentsKingInCheck()) {
+                        gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
+                        gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
+                    }
+                } else if (boardSquare.getPiece() == Piece.BISHOP && boardSquare.getPieceColor() == pieceColor) {
+                    final var bishopMoves = Bishop.bishopMoves(boardSquare, gameMaster.getBoard());
+                    phase1LegalMoves.put(boardSquare, bishopMoves.movementSquares());
+                    kingLegalMoves.removeIf(square -> square.getLetter() == boardSquare.getLetter()
+                            && square.getNumber() == boardSquare.getNumber());
+                } else if (boardSquare.getPiece() == Piece.BISHOP
+                        && boardSquare.getPieceColor() == oppositePieceColor) {
+                    final var oppositeBishopMoves = Bishop.bishopMoves(boardSquare, gameMaster.getBoard());
+                    kingLegalMoves.removeAll(oppositeBishopMoves.movementSquares());
+                    if (oppositeBishopMoves.opponentsKingInCheck()) {
+                        gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
+                        gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
+                    }
+                } else if (boardSquare.getPiece() == Piece.KNIGHT && boardSquare.getPieceColor() == pieceColor) {
+                    final var knightMoves = Knight.knightMoves(boardSquare, gameMaster.getBoard());
+                    phase1LegalMoves.put(boardSquare, knightMoves.movementSquares());
+                    kingLegalMoves.removeIf(square -> square.getLetter() == boardSquare.getLetter()
+                            && square.getNumber() == boardSquare.getNumber());
+                } else if (boardSquare.getPiece() == Piece.KNIGHT
+                        && boardSquare.getPieceColor() == oppositePieceColor) {
+                    final var oppositeKnightMoves = Knight.knightMoves(boardSquare, gameMaster.getBoard());
+                    kingLegalMoves.removeAll(oppositeKnightMoves.movementSquares());
+                    if (oppositeKnightMoves.opponentsKingInCheck()) {
+                        gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
+                        gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
+                    }
+                } else if (boardSquare.getPiece() == Piece.PAWN && boardSquare.getPieceColor() == pieceColor) {
+                    final var pawnMoves = Pawn.pawnMoves(boardSquare, gameMaster.getBoard());
+                    phase1LegalMoves.put(boardSquare, pawnMoves.movementSquares());
+                    kingLegalMoves.removeIf(square -> square.getLetter() == boardSquare.getLetter()
+                            && square.getNumber() == boardSquare.getNumber());
+                } else if (boardSquare.getPiece() == Piece.PAWN && boardSquare.getPieceColor() == oppositePieceColor) {
+                    final var oppositePawnMoves = Pawn.pawnMoves(boardSquare, gameMaster.getBoard());
+                    kingLegalMoves.removeAll(oppositePawnMoves.attackSquares());
+                    if (oppositePawnMoves.opponentsKingInCheck()) {
+                        gameMaster.setWhiteKingInCheck(pieceColor == PieceColor.WHITE);
+                        gameMaster.setBlackKingInCheck(pieceColor == PieceColor.BLACK);
+                    }
                 }
             }
-        });
+        }
 
         phase1LegalMoves.put(king.get(), kingLegalMoves);
 
@@ -137,17 +146,11 @@ public class LegalMoves {
             final var newBoard = gameMaster.getBoard().deepCopy();
             final var newLegalMoves = new LegalMoves();
             final var newGameMaster = new GameMaster(newBoard, newLegalMoves);
-            final var pieceNewBoard = newBoard.getBoard().stream()
-                    .filter(square ->
-                            square.getLetter() == piece.getLetter() && square.getNumber() == piece.getNumber())
-                    .findFirst();
+            final var pieceNewBoard = findPieceOnNewBoard(piece, newBoard);
             // assert
             pieceNewBoard.orElseThrow();
             newGameMaster.setFromSquare(pieceNewBoard);
-            final var toSquareNewBoard = newBoard.getBoard().stream()
-                    .filter(square ->
-                            square.getLetter() == legalMove.getLetter() && square.getNumber() == legalMove.getNumber())
-                    .findFirst();
+            final var toSquareNewBoard = findPieceOnNewBoard(legalMove, newBoard);
             // assert
             toSquareNewBoard.orElseThrow();
             newGameMaster.setToSquare(toSquareNewBoard);
@@ -163,6 +166,19 @@ public class LegalMoves {
         });
 
         return prunedMoves;
+    }
+
+    private Optional<Square> findPieceOnNewBoard(Square piece, Board newBoard) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var square = newBoard.getBoard()[row][col];
+                if (square.getLetter() == piece.getLetter() && square.getNumber() == piece.getNumber()) {
+                    return Optional.of(square);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     private void checkmateCheck(GameMaster gameMaster) {

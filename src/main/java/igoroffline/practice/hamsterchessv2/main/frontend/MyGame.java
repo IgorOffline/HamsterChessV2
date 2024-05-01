@@ -173,12 +173,11 @@ public class MyGame extends ApplicationAdapter {
 
     private void renderLetterNumbers() {
         spriteBatch.begin();
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                final var drawIndex = j * 8 + i;
-                final var square = gameMaster.getBoard().getBoard().get(drawIndex);
-                final var rectX = 25F + i * squareSize;
-                final var rectY = windowHeight - 105F - j * squareSize;
+        for (int row = 0; row < boardSize; row++) {
+            for (int col = 0; col < boardSize; col++) {
+                final var square = gameMaster.getBoard().getBoard()[row][col];
+                final var rectX = 25F + row * squareSize;
+                final var rectY = windowHeight - 105F - col * squareSize;
                 final var letterNumber = square.getLetter().name() + LetterNumber.getNumber(square.getNumber().index);
                 font.draw(spriteBatch, letterNumber, rectX, rectY + 12F);
             }
@@ -208,14 +207,13 @@ public class MyGame extends ApplicationAdapter {
 
     private void renderPieces() {
         spriteBatch.begin();
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                final var drawIndex = j * 8 + i;
-                final var square = gameMaster.getBoard().getBoard().get(drawIndex);
+        for (int row = 0; row < boardSize; row++) {
+            for (int col = 0; col < boardSize; col++) {
+                final var square = gameMaster.getBoard().getBoard()[row][col];
                 final var xOffset = 8F;
-                final var rectX = 25F + i * squareSize + xOffset;
+                final var rectX = 25F + row * squareSize + xOffset;
                 final var yOffset = 10F;
-                final var rectY = windowHeight - 105F - j * squareSize + yOffset;
+                final var rectY = windowHeight - 105F - col * squareSize + yOffset;
                 final var rectSize = 60F;
                 Texture textureRender = textures.getPieceTexture(square);
                 if (textureRender != null) {
@@ -228,14 +226,13 @@ public class MyGame extends ApplicationAdapter {
 
     private void renderSelectedSquarePointer() {
         spriteBatch.begin();
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                final var drawIndex = j * 8 + i;
-                final var square = gameMaster.getBoard().getBoard().get(drawIndex);
+        for (int row = 0; row < boardSize; row++) {
+            for (int col = 0; col < boardSize; col++) {
+                final var drawIndex = col * 8 + row;
                 final var xOffset = -10F;
-                final var rectX = 25F + i * squareSize + xOffset;
+                final var rectX = 25F + row * squareSize + xOffset;
                 final var yOffset = 15F;
-                final var rectY = windowHeight - 105F - j * squareSize + yOffset;
+                final var rectY = windowHeight - 105F - col * squareSize + yOffset;
                 final var rectSize = 40F;
                 if (selectedSquareIndex == drawIndex) {
                     spriteBatch.draw(textures.getTextureSelectedSquarePointer(), rectX, rectY, rectSize, rectSize);

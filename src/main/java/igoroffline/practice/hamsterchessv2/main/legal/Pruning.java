@@ -12,14 +12,17 @@ public class Pruning {
 
         final var oppositePieceColor = pieceColor == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
 
-        gameMaster.getBoard().getBoard().forEach(square -> {
-            if (square.getPieceColor() == oppositePieceColor && square.getPiece() == Piece.ROOK) {
-                final var rookMoves = Rook.rookMoves(square, gameMaster.getBoard());
-                if (rookMoves.opponentsKingInCheck()) {
-                    kingStillInCheck(gameMaster, pieceColor);
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var sq = gameMaster.getBoard().getBoard()[row][col];
+                if (sq.getPieceColor() == oppositePieceColor && sq.getPiece() == Piece.ROOK) {
+                    final var rookMoves = Rook.rookMoves(sq, gameMaster.getBoard());
+                    if (rookMoves.opponentsKingInCheck()) {
+                        kingStillInCheck(gameMaster, pieceColor);
+                    }
                 }
             }
-        });
+        }
     }
 
     private static void kingStillInCheck(GameMaster gameMaster, PieceColor pieceColor) {
