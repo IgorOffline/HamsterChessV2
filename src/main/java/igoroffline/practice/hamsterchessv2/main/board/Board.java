@@ -78,7 +78,7 @@ public class Board {
 
     public Optional<Square> findNextNumberSquare(Letter letter, Number2 number) {
         final var nextNumberIndex = number.index + 1;
-        if (!LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextNumberIndex)) {
             return Optional.empty();
         }
 
@@ -89,7 +89,7 @@ public class Board {
 
     public Optional<Square> findPreviousNumberSquare(Letter letter, Number2 number) {
         final var previousNumberIndex = number.index - 1;
-        if (!LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousNumberIndex)) {
             return Optional.empty();
         }
 
@@ -100,7 +100,7 @@ public class Board {
 
     public Optional<Square> findNextLetterSquare(Letter letter, Number2 number) {
         final var nextLetterIndex = letter.index + 1;
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextLetterIndex)) {
             return Optional.empty();
         }
 
@@ -111,7 +111,7 @@ public class Board {
 
     public Optional<Square> findPreviousLetterSquare(Letter letter, Number2 number) {
         final var previousLetterIndex = letter.index - 1;
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousLetterIndex)) {
             return Optional.empty();
         }
 
@@ -124,8 +124,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var nextNumberIndex = number.index + 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(nextNumberIndex)) {
             return Optional.empty();
         }
 
@@ -138,8 +138,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var nextNumberIndex = number.index + 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(nextNumberIndex)) {
             return Optional.empty();
         }
 
@@ -152,8 +152,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var previousNumberIndex = number.index - 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(previousNumberIndex)) {
             return Optional.empty();
         }
 
@@ -166,8 +166,8 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var previousNumberIndex = number.index - 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(previousNumberIndex)) {
             return Optional.empty();
         }
 
@@ -180,8 +180,7 @@ public class Board {
         final var ppLetterIndex = letter.index - 2;
         final var nextNumberIndex = number.index + 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(ppLetterIndex) || LetterNumber.isLetterNumberIllegal(nextNumberIndex)) {
             return Optional.empty();
         }
 
@@ -194,8 +193,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var nnNumberIndex = number.index + 2;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(nnNumberIndex)) {
             return Optional.empty();
         }
 
@@ -208,8 +207,7 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var nnNumberIndex = number.index + 2;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nnNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextLetterIndex) || LetterNumber.isLetterNumberIllegal(nnNumberIndex)) {
             return Optional.empty();
         }
 
@@ -222,8 +220,7 @@ public class Board {
         final var nnLetterIndex = letter.index + 2;
         final var nextNumberIndex = number.index + 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(nextNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nnLetterIndex) || LetterNumber.isLetterNumberIllegal(nextNumberIndex)) {
             return Optional.empty();
         }
 
@@ -236,8 +233,8 @@ public class Board {
         final var ppLetterIndex = letter.index - 2;
         final var previousNumberIndex = number.index - 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(ppLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(ppLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(previousNumberIndex)) {
             return Optional.empty();
         }
 
@@ -250,8 +247,8 @@ public class Board {
         final var previousLetterIndex = letter.index - 1;
         final var ppNumberIndex = number.index - 2;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(previousLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(previousLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(ppNumberIndex)) {
             return Optional.empty();
         }
 
@@ -264,8 +261,7 @@ public class Board {
         final var nextLetterIndex = letter.index + 1;
         final var ppNumberIndex = number.index - 2;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nextLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(ppNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nextLetterIndex) || LetterNumber.isLetterNumberIllegal(ppNumberIndex)) {
             return Optional.empty();
         }
 
@@ -278,8 +274,8 @@ public class Board {
         final var nnLetterIndex = letter.index + 2;
         final var previousNumberIndex = number.index - 1;
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(nnLetterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(previousNumberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(nnLetterIndex)
+                || LetterNumber.isLetterNumberIllegal(previousNumberIndex)) {
             return Optional.empty();
         }
 
@@ -306,8 +302,7 @@ public class Board {
             };
         }
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letter.index))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(letter.index) || LetterNumber.isLetterNumberIllegal(numberIndex)) {
             return Optional.empty();
         }
 
@@ -333,8 +328,7 @@ public class Board {
                     case NONE -> throw new IllegalArgumentException("PieceColor.NONE not supported!");
                 };
 
-        if (!LetterNumber.isEnumLegal(LetterNumber.getLetterEnum(letterIndex))
-                || !LetterNumber.isEnumLegal(LetterNumber.getNumberEnum(numberIndex))) {
+        if (LetterNumber.isLetterNumberIllegal(letterIndex) || LetterNumber.isLetterNumberIllegal(numberIndex)) {
             return Optional.empty();
         }
 

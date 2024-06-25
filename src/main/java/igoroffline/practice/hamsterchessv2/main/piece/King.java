@@ -1,7 +1,9 @@
 package igoroffline.practice.hamsterchessv2.main.piece;
 
 import igoroffline.practice.hamsterchessv2.main.board.Board;
+import igoroffline.practice.hamsterchessv2.main.board.Letter;
 import igoroffline.practice.hamsterchessv2.main.board.LetterNumber;
+import igoroffline.practice.hamsterchessv2.main.board.Number2;
 import igoroffline.practice.hamsterchessv2.main.board.Piece;
 import igoroffline.practice.hamsterchessv2.main.board.PieceColor;
 import igoroffline.practice.hamsterchessv2.main.board.Square;
@@ -46,41 +48,50 @@ public class King {
         final var numberIndexPlus = kingSquare.getNumber().index + 1;
 
         final var letter = kingSquare.getLetter();
-        final var letterMinus = LetterNumber.getLetterEnum(letterIndexMinus);
-        final var letterMinusLegal = LetterNumber.isEnumLegal(letterMinus);
-        final var letterPlus = LetterNumber.getLetterEnum(letterIndexPlus);
-        final var letterPlusLegal = LetterNumber.isEnumLegal(letterPlus);
+        final var letterMinus = getKingLetterNumber(letterIndexMinus, true);
+        final var letterPlus = getKingLetterNumber(letterIndexPlus, true);
         final var number = kingSquare.getNumber();
-        final var numberMinus = LetterNumber.getNumberEnum(numberIndexMinus);
-        final var numberMinusLegal = LetterNumber.isEnumLegal(numberMinus);
-        final var numberPlus = LetterNumber.getNumberEnum(numberIndexPlus);
-        final var numberPlusLegal = LetterNumber.isEnumLegal(numberPlus);
+        final var numberMinus = getKingLetterNumber(numberIndexMinus, false);
+        final var numberPlus = getKingLetterNumber(numberIndexPlus, false);
 
-        if (letterMinusLegal) {
-            moves.add(new Square(letterMinus, number, Piece.NONE, PieceColor.NONE));
-            if (numberPlusLegal) {
-                moves.add(new Square(letterMinus, numberPlus, Piece.NONE, PieceColor.NONE));
+        if (letterMinus.legal) {
+            moves.add(new Square(letterMinus.letter.get(), number, Piece.NONE, PieceColor.NONE));
+            if (numberPlus.legal) {
+                moves.add(new Square(letterMinus.letter.get(), numberPlus.number.get(), Piece.NONE, PieceColor.NONE));
             }
-            if (numberMinusLegal) {
-                moves.add(new Square(letterMinus, numberMinus, Piece.NONE, PieceColor.NONE));
-            }
-        }
-        if (letterPlusLegal) {
-            moves.add(new Square(letterPlus, number, Piece.NONE, PieceColor.NONE));
-            if (numberPlusLegal) {
-                moves.add(new Square(letterPlus, numberPlus, Piece.NONE, PieceColor.NONE));
-            }
-            if (numberMinusLegal) {
-                moves.add(new Square(letterPlus, numberMinus, Piece.NONE, PieceColor.NONE));
+            if (numberMinus.legal) {
+                moves.add(new Square(letterMinus.letter.get(), numberMinus.number.get(), Piece.NONE, PieceColor.NONE));
             }
         }
-        if (numberPlusLegal) {
-            moves.add(new Square(letter, numberPlus, Piece.NONE, PieceColor.NONE));
+        if (letterPlus.legal) {
+            moves.add(new Square(letterPlus.letter.get(), number, Piece.NONE, PieceColor.NONE));
+            if (numberPlus.legal) {
+                moves.add(new Square(letterPlus.letter.get(), numberPlus.number.get(), Piece.NONE, PieceColor.NONE));
+            }
+            if (numberMinus.legal) {
+                moves.add(new Square(letterPlus.letter.get(), numberMinus.number.get(), Piece.NONE, PieceColor.NONE));
+            }
         }
-        if (numberMinusLegal) {
-            moves.add(new Square(letter, numberMinus, Piece.NONE, PieceColor.NONE));
+        if (numberPlus.legal) {
+            moves.add(new Square(letter, numberPlus.number.get(), Piece.NONE, PieceColor.NONE));
+        }
+        if (numberMinus.legal) {
+            moves.add(new Square(letter, numberMinus.number.get(), Piece.NONE, PieceColor.NONE));
         }
 
         return moves;
+    }
+
+    private record KingLetterNumber(boolean legal, Optional<Letter> letter, Optional<Number2> number) {}
+
+    private static KingLetterNumber getKingLetterNumber(int index, boolean isLetter) {
+        if (LetterNumber.isLetterNumberIllegal(index)) {
+            return new KingLetterNumber(false, Optional.empty(), Optional.empty());
+        }
+
+        final Optional<Letter> letter = isLetter ? Optional.of(LetterNumber.getLetterEnum(index)) : Optional.empty();
+        final Optional<Number2> number = isLetter ? Optional.empty() : Optional.of(LetterNumber.getNumberEnum(index));
+
+        return new KingLetterNumber(true, letter, number);
     }
 }
