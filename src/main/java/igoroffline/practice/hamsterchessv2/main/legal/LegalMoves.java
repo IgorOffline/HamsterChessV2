@@ -113,17 +113,15 @@ public class LegalMoves {
 
         phase1LegalMoves.put(king, kingLegalMoves);
 
-        if (!gameMaster.isWhiteKingInCheck() && !gameMaster.isBlackKingInCheck()) {
-            legalMoves = phase1LegalMoves;
-        } else {
-            phase1LegalMoves.keySet().forEach(piece -> {
-                final var pieceLegalMoves = phase1LegalMoves.get(piece);
-                final var prunedMoves = pruneMoves(gameMaster, pieceLegalMoves, piece);
-                phase2LegalMoves.put(piece, prunedMoves);
-            });
+        phase1LegalMoves.keySet().forEach(piece -> {
+            final var pieceLegalMoves = phase1LegalMoves.get(piece);
+            final var prunedMoves = pruneMoves(gameMaster, pieceLegalMoves, piece);
+            phase2LegalMoves.put(piece, prunedMoves);
+        });
 
-            legalMoves = phase2LegalMoves;
+        legalMoves = phase2LegalMoves;
 
+        if (gameMaster.isWhiteKingInCheck() || gameMaster.isBlackKingInCheck()) {
             checkmateCheck(gameMaster);
         }
     }
