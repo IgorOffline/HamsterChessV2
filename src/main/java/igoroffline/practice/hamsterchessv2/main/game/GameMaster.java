@@ -69,14 +69,14 @@ public class GameMaster {
 
     private void moveAndCalculateInner() {
         if (legalMoves.getLegalMoves().containsKey(fromSquare.orElseThrow())) {
-            legalMoves.getLegalMoves().get(fromSquare.get()).forEach(pieceLegalMove -> {
+            for (final var pieceLegalMove : legalMoves.getLegalMoves().get(fromSquare.get())) {
                 if (toSquareEquals(pieceLegalMove)) {
                     legalMoves.move(this);
                     legalMoves.calculate(this, true);
 
                     return;
                 }
-            });
+            }
         }
     }
 

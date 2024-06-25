@@ -14,28 +14,26 @@ import java.util.Optional;
 public class King {
 
     public static List<Square> kingMoves(Square kingSquare, Board board) {
-
         final var potentialMoves = kingMovesInner(kingSquare);
-
         final var oppositeColor = kingSquare.getPieceColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+        final var oppositeKingSquare = oppositeKingSquare(board, oppositeColor);
+        final var illegalMoves = kingMovesInner(oppositeKingSquare);
+        potentialMoves.removeAll(illegalMoves);
 
-        Optional<Square> oppositeKingSquare = Optional.empty();
+        return potentialMoves;
+    }
 
+    private static Square oppositeKingSquare(Board board, PieceColor oppositeColor) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 final var square = board.getBoard()[row][col];
                 if (square.getPiece() == Piece.KING && square.getPieceColor() == oppositeColor) {
-                    // TODO extract method
-                    oppositeKingSquare = Optional.of(square);
+                    return square;
                 }
             }
         }
 
-        final var illegalMoves = kingMovesInner(oppositeKingSquare.orElseThrow());
-
-        potentialMoves.removeAll(illegalMoves);
-
-        return potentialMoves;
+        throw new IllegalStateException("Opposite king not found");
     }
 
     private static List<Square> kingMovesInner(Square kingSquare) {
