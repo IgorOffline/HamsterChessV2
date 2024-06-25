@@ -36,7 +36,7 @@ public class MyGame extends ApplicationAdapter {
     private final int squareSize = 80;
     private final int windowHeight = 720;
     // temp hack
-    private final int[] moveRightIllegal = new int[boardSize];
+    private final int[] moveRightIllegal = new int[boardSize]; // TODO Still necessary?
     private int selectedSquareIndex = 0;
     private Optional<Square> selectedSquare = Optional.empty();
     private Optional<Square> fromSquare = Optional.empty();
@@ -299,13 +299,13 @@ public class MyGame extends ApplicationAdapter {
             if (fromSquare.isPresent()) {
                 guiFromIndex = fromSquare.get().getIndex();
             }
-            ImGui.text("fromIndex: " + guiFromIndex);
+            ImGui.text(String.format("fromIndex gui/gm: (%d | %d)", guiFromIndex, getGameMasterFromSquareIndex()));
 
             var guiToIndex = -1;
             if (toSquare.isPresent()) {
                 guiToIndex = toSquare.get().getIndex();
             }
-            ImGui.text("toIndex: " + guiToIndex);
+            ImGui.text(String.format("toIndex gui/gm: (%d | %d)", guiToIndex, getGameMasterToSquareIndex()));
 
             var legalSquaresCount = -1;
             if (selectedSquare.isPresent()) {
@@ -317,11 +317,34 @@ public class MyGame extends ApplicationAdapter {
             }
 
             ImGui.text("legalSquaresCount: " + legalSquaresCount);
+
+            ImGui.text(String.format(
+                    "white/blackKingInCheck: (%b | %b)",
+                    gameMaster.isWhiteKingInCheck(), gameMaster.isBlackKingInCheck()));
+            ImGui.text(String.format(
+                    "checkmate: (%b | %b)", gameMaster.isWhiteKingCheckmated(), gameMaster.isBlackKingCheckmated()));
+
             ImGui.end();
             // ---
 
             ImGui.render();
             imGuiGl3.renderDrawData(ImGui.getDrawData());
+        }
+
+        private int getGameMasterFromSquareIndex() {
+            if (gameMaster.getFromSquare() != null && gameMaster.getFromSquare().isPresent()) {
+                return gameMaster.getFromSquare().get().getIndex();
+            }
+
+            return -1;
+        }
+
+        private int getGameMasterToSquareIndex() {
+            if (gameMaster.getToSquare() != null && gameMaster.getToSquare().isPresent()) {
+                return gameMaster.getToSquare().get().getIndex();
+            }
+
+            return -1;
         }
 
         public void dispose() {

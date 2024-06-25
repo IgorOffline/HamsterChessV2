@@ -50,19 +50,9 @@ public class LegalMoves {
         gameMaster.setWhiteKingInCheck(false);
         gameMaster.setBlackKingInCheck(false);
 
-        Optional<Square> king = Optional.empty();
+        final var king = findKing(gameMaster, pieceColor);
 
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                final var square = gameMaster.getBoard().getBoard()[row][col];
-                if (square.getPiece() == Piece.KING && square.getPieceColor() == pieceColor) {
-                    // TODO extract method
-                    king = Optional.of(square);
-                }
-            }
-        }
-
-        final var kingLegalMoves = King.kingMoves(king.orElseThrow(), gameMaster.getBoard());
+        final var kingLegalMoves = King.kingMoves(king, gameMaster.getBoard());
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -121,7 +111,7 @@ public class LegalMoves {
             }
         }
 
-        phase1LegalMoves.put(king.get(), kingLegalMoves);
+        phase1LegalMoves.put(king, kingLegalMoves);
 
         if (!gameMaster.isWhiteKingInCheck() && !gameMaster.isBlackKingInCheck()) {
             legalMoves = phase1LegalMoves;
@@ -136,6 +126,19 @@ public class LegalMoves {
 
             checkmateCheck(gameMaster);
         }
+    }
+
+    private Square findKing(GameMaster gameMaster, PieceColor pieceColor) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final var square = gameMaster.getBoard().getBoard()[row][col];
+                if (square.getPiece() == Piece.KING && square.getPieceColor() == pieceColor) {
+                    return square;
+                }
+            }
+        }
+
+        throw new IllegalStateException("King not found");
     }
 
     private List<Square> pruneMoves(GameMaster gameMaster, List<Square> pieceLegalMoves, Square piece) {
